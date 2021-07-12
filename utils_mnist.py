@@ -9,7 +9,7 @@ import keras
 from keras.datasets import mnist
 from keras.utils import np_utils
 import warnings
-
+import tensorflow as tf
 import utils
 
 def data_mnist():
@@ -21,12 +21,9 @@ def data_mnist():
     # the data, shuffled and split between train and test sets
     (X_train, y_train), (X_test, y_test) = mnist.load_data()
 
-    if keras.backend.image_dim_ordering() == 'th':
-        X_train = X_train.reshape(X_train.shape[0], 1, img_rows, img_cols)
-        X_test = X_test.reshape(X_test.shape[0], 1, img_rows, img_cols)
-    else:
-        X_train = X_train.reshape(X_train.shape[0], img_rows, img_cols, 1)
-        X_test = X_test.reshape(X_test.shape[0], img_rows, img_cols, 1)
+
+    X_train = X_train.reshape(X_train.shape[0], img_rows, img_cols, 1)
+    X_test = X_test.reshape(X_test.shape[0], img_rows, img_cols, 1)
     X_train = X_train.astype('float32')
     X_test = X_test.astype('float32')
     X_train /= 255

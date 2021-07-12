@@ -100,13 +100,13 @@ def model_train(sess, x, y, predictions, X_train, Y_train, save=False,
         p = 1.0
         loss = ((1-p)*loss + p*model_loss(y, predictions_adv))
 
-    train_step = tf.train.AdamOptimizer(learning_rate=args.learning_rate).minimize(loss)
+    train_step = tf.compat.v1.train.AdamOptimizer(learning_rate=args.learning_rate).minimize(loss)
 
     with sess.as_default():
         if hasattr(tf, "global_variables_initializer"):
             tf.global_variables_initializer().run()
         else:
-            sess.run(tf.initialize_all_variables())
+            sess.run(tf.compat.v1.initialize_all_variables())
 
         for epoch in six.moves.xrange(args.nb_epochs):
             if verbose:

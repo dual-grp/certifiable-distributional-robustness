@@ -198,10 +198,10 @@ def cnn_model(logits=False, input_ph=None, img_rows=28, img_cols=28,
     model = Sequential()
 
     # Define the layers successively (convolution layers are version dependent)
-    if keras.backend.image_dim_ordering() == 'th':
-        input_shape = (channels, img_rows, img_cols)
-    else:
-        input_shape = (img_rows, img_cols, channels)
+    #if keras.backend.image_dim_ordering() == 'th':
+    #    input_shape = (channels, img_rows, img_cols)
+    #else:
+    input_shape = (img_rows, img_cols, channels)
 
     layers = [conv_2d(nb_filters, (8, 8), (2, 2), "same",
                       input_shape=input_shape),

@@ -11,7 +11,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
-
+from keras import backend as K
 import numpy as np
 import keras
 from keras import backend
@@ -45,16 +45,16 @@ eval_params = {'batch_size': FLAGS.batch_size}
 
 seed = 12345
 np.random.seed(seed)
-tf.set_random_seed(seed)
+tf.random.set_seed(seed)
 
 def main(argv=None):
 
-    keras.layers.core.K.set_learning_phase(1)
-    manual_variable_initialization(True)
+    #keras.layers.core.K.set_learning_phase(1)
+    #manual_variable_initialization(True)
 
     # Create TF session and set as Keras backend session
-    sess = tf.Session()
-    keras.backend.set_session(sess)
+    sess = tf.compat.v1.Session()
+    tf.compat.v1.keras.backend.set_session(sess)
 
     # Get MNIST test data
     X_train, Y_train, X_test, Y_test = data_mnist()
@@ -63,8 +63,9 @@ def main(argv=None):
     Y_train = Y_train.clip(label_smooth / 9., 1. - label_smooth)
 
     # Define input TF placeholder
-    x = tf.placeholder(tf.float32, shape=(None, 28, 28, 1))
-    y = tf.placeholder(tf.float32, shape=(None, 10))
+    tf.compat.v1.disable_eager_execution()
+    x = tf.compat.v1.placeholder(tf.float32, shape=(None, 28, 28, 1))
+    y = tf.compat.v1.placeholder(tf.float32, shape=(None, 10))
 
     # Define TF model graph
     model = cnn_model(activation='elu')
